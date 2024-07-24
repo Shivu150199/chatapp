@@ -4,6 +4,8 @@ import Login from './pages/Login'
 import Home from './pages/Home'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Chat from './pages/Chat';
+import PrivateRoute from './components/PrivateRoute';
 function App() {
  
 
@@ -15,6 +17,10 @@ autoClose={5000}/>
 <Route path='/' element={<Home/>}/>
 <Route path='/signup' element={<Signup/>}/>
 <Route path='/login' element={<Login/>}/>
+<Route element={<PrivateRoute/>}>
+<Route path='/chat' element={<Chat/>}/>
+
+</Route>
     
 </Routes>
 

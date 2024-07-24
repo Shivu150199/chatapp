@@ -3,10 +3,32 @@ const cors=require('cors')
 const app=express()
 const session=require('express-session')
 const mongodbSession=require('connect-mongodb-session')(session)
+const {createServer} =require('http')
+const {Server} =require('socket.io')
+
 const db=require('./config/db.js')
 
 const clc=require('cli-color')
 require('dotenv').config()
+
+const server=createServer(app)
+const io=new Server(server,{
+    cors:{
+        origin:"*",
+        methods:["GET","POST"],
+        credentials:true
+    
+    }
+})
+
+io.on('connection',(socket)=>{
+console.log('user connected')
+console.log('id',socket.id)
+socket.on("disconnect",()=>{
+    console.log('user disconnected',socket.id)
+})
+
+})
 
 //file import
 const authRouter = require('./routers/authRouter.js')
@@ -37,6 +59,6 @@ return res.send('server is running')
 })
 
 
-app.listen(PORT,()=>{
+server.listen(PORT,()=>{
     console.log( clc.yellowBright.bold( 'server is running on port : '+PORT))
 })

@@ -120,7 +120,11 @@ setFormData({...formData,[e.target.id]:e.target.value})
           {/* <div className="text-red-700 flex items-center justify-center">
           {error ? error.message : ''}
         </div> */}
-
+<div className='my-2 text-blue-600'>
+  <Link to='/login'>
+  already have an account? Login
+  </Link>
+</div>
         </form>
       </div>
     </section>

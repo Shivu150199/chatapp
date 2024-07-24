@@ -80,7 +80,8 @@ req.session.user={
 }
 return res.send({
     status:200,
-    message:'login successfull'
+    message:'login successfull',
+    data:userDb
 })
 
 }catch(err){

@@ -7,32 +7,36 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
-
+import {useSelector,useDispatch} from 'react-redux'
+import { signInRejected, signInSuccess,signInPending } from '../redux/authSlice'
 const Login = () => {
-  const[loading,setLoading]=useState(false)
+  const dispatch=useDispatch()
+  const {loading,user}=useSelector(state=>state.authState)
+  // const[loading,setLoading]=useState(false)
   const [error,setError]=useState(null)
   const [formData,setFormData]=useState(null)
   const navigate=useNavigate()
     const handleSubmit = async(e) => {
       e.preventDefault()
-      setLoading(true)
-      setError(null)
+     
       try{
+        dispatch(signInPending())
         const {data}=await axios.post('http://localhost:8000/auth/login',formData)
         console.log(data)
-        if(data.status==400){
+        if(data.status==400||data.status==500){
   toast(data.error)
-  setLoading(false)
+  // setLoading(false)
   return
         }
-        
-        setLoading(false)
+        dispatch(signInSuccess(data.data))
+        // setLoading(false)
         setError(null)
         toast(data.message)
-  navigate('/login')
+  navigate('/chat')
       }catch(err){
   console.log(err)
-  setLoading(false)
+  dispatch(signInRejected(err))
+  // setLoading(false)
   setError(error)
       }
   
@@ -96,7 +100,11 @@ const Login = () => {
         </button>
 
       
-
+        <div className='my-2 text-blue-600'>
+  <Link to='/login'>
+  don't have an account? Signup
+  </Link>
+</div>
       </form>
     </div>
   </section>
