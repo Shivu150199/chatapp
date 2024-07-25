@@ -4,7 +4,9 @@ import {createSlice} from '@reduxjs/toolkit'
 const initialState={
     loading:false,
     error:null,
-    user:null
+    user:null,
+    onlineUser:[],
+    socketConnection:null
 }
 
 const authSlice=createSlice({
@@ -25,10 +27,19 @@ const authSlice=createSlice({
             state.error = action.payload
             // toast(action.payload.message)
           },
+          setOnlineUser:(state,action)=>{
+            state.onlineUser=action.payload
+          },
+          setSocketConnection:(state,action)=>{
+            state.socketConnection=action.payload;
+          },
+          handleLogOut:(state,action)=>{
+            state.user=null
+          }
     }
 })
 
 
-export const {signInPending,signInRejected,signInSuccess}=authSlice.actions
+export const {signInPending,signInRejected,signInSuccess,setOnlineUser,setSocketConnection,handleLogOut}=authSlice.actions
 
 export default authSlice.reducer

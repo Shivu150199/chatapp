@@ -1,5 +1,5 @@
 const bcrypt=require('bcrypt')
-
+const user = require("../schemas/userSchema")
 const User = require("../models/userModel");
 const { userValidation } = require("../utils/authUtils");
 
@@ -112,7 +112,26 @@ req.session.destroy((err)=>{
 
    } 
 
+const getAllUser=async(req,res)=>{
+
+try{
+const users=await user.find();
+return res.send({
+    status:201,
+    message:'all user',
+    data:users
+})
+}
+catch(err){
+return res.send({
+    status:401,
+    message:'not able to get all user',
+    error:err
+})
+}
 
 
+}
 
-module.exports={registerController,loginController,checkController,logoutController}      
+
+module.exports={registerController,loginController,checkController,logoutController,getAllUser}      
