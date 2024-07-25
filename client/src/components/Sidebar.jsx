@@ -19,7 +19,7 @@ const fetchData=async()=>{
   try{
     setLoading(true)
     const data=await axios.get('http://localhost:8000/auth/getuser')
-console.log(data)
+
 setAlluser(data.data.data)
 setLoading(false)
   }catch(err){

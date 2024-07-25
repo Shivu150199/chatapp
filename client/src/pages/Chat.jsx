@@ -8,14 +8,12 @@ import Sidebar from '../components/Sidebar';
 
 const Chat = () => {
   const {id}=useParams()
-  // console.log(param)
+ 
   const dispatch=useDispatch()
   const {user,onlineUser}=useSelector(state=>state.authState)
   const[userid,setUserID]=useState(user._id)
   const [sockets,setSockets]=useState(null)
-  
-  console.log(onlineUser)
-  // console.log(socket) 
+
   useEffect(()=>{
   const socket=io('http://localhost:8000',{
     auth:{
@@ -25,7 +23,7 @@ const Chat = () => {
   
 socket.on('onlineUser',(data)=>{
   dispatch(setOnlineUser(data))
-  console.log(data)
+
 })
 setSockets(socket)
 // dispatch(setSocketConnection(socket))
@@ -35,7 +33,7 @@ setSockets(socket)
 },[userid])
 
 const logout=()=>{
-  console.log('logout')
+
 dispatch(handleLogOut())
 }
 

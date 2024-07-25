@@ -5,9 +5,7 @@ import { useParams } from 'react-router-dom'
 import { IoSend } from "react-icons/io5";
 import moment from 'moment'
 const MessageSection = ({id,socketConnection}) => {
-  // const {socketConnection}=useSelector(state=>state.authState)
-  // const params=useParams()
-// console.log(socketConnection)
+
 const {user}=useSelector(state=>state.authState)
 const [userData,setUserData]=useState(null)
 const [message,setMessage]=useState('')
@@ -22,7 +20,7 @@ const handleChange=(e)=>{
 
   setMessage(e.target.value)
 }
-console.log('frontend message' ,message)
+
 const handleSubmit=(e)=>{
 e.preventDefault()
 if(message){
@@ -42,20 +40,19 @@ useEffect(()=>{
   if(socketConnection){
     socketConnection.emit('message-page',id)
     socketConnection.on('message-user',(data)=>{
-      console.log('user detail',data)
+ 
       setUserData(data)
     })
 socketConnection.on('message',(data)=>{
-  console.log('message data',data)
-  setAllMessage(data)
+setAllMessage(data)
 })
 
   }
 
 
 },[socketConnection,id,allMessage])
-console.log(allMessage)
-// console.log(params)
+
+
   return (
     <div>
       <header className='sticky top-0 h-16 bg-base-200 rounded-xl flex items-center px-6 gap-6'>
@@ -108,7 +105,7 @@ console.log(allMessage)
   <div className="chat-footer opacity-50">Seen at 12:46</div>
 </div> */}
       </section>
-      <section className='h-14 bg-base-200 rounded-full flex items-center px-4 gap-6 justify-between'>
+      <section className='h-14 bg-base-200 rounded-xl flex items-center px-4 gap-6 justify-between'>
       <div className="dropdown dropdown-top">
   <div tabIndex={0} role="button" className="btn m-1 bg-base-300 rounded-full"><FaPlus /></div>
   <ul tabIndex={0} className="dropdown-content menu bg-base-300 rounded-box z-[1] w-52 p-2 shadow">
