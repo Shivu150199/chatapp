@@ -6,11 +6,15 @@ const mongodbSession=require('connect-mongodb-session')(session)
 const {createServer} =require('http')
 const {Server} =require('socket.io')
 const userSchema =require('./schemas/userSchema.js')
+const path =require('path')
 const db=require('./config/db.js')
 // const {ConversationModel,MessageModel}=require('./schemas/messageSchema.js')
 
 const clc=require('cli-color')
 require('dotenv').config()
+
+
+
 
 const server=createServer(app)
 const io=new Server(server,{
@@ -24,8 +28,8 @@ const io=new Server(server,{
 const onlineUser=new Set()
 
 io.on('connection',(socket)=>{
-
-const userId=socket.handshake.auth.id
+    
+    const userId=socket.handshake.auth.id
 
 //create a room
 socket.join(userId)
@@ -106,6 +110,7 @@ socket.on("disconnect",()=>{
 
 
 //file import
+
 const authRouter = require('./routers/authRouter.js')
 const user = require('./schemas/userSchema.js')
 const { ConversationModel, MessageModel } = require('./schemas/messageSchema.js')
@@ -127,13 +132,14 @@ app.use(session({
     resave:false,
     saveUninitialized:false
 }))
+const _dirname=path.resolve()
 app.use('/auth',authRouter)
 
+app.use(express.static(path.join(_dirname,'/client/dist')))
 
-
-app.get('/',(req,res)=>{
-return res.send('server is running')
-})
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(_dirname,'client','dist','index.html'))
+  })
 
 
 server.listen(PORT,()=>{
